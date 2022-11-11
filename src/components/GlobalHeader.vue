@@ -22,9 +22,17 @@
       </ul>
       <ul v-if="user.isLogin" class="list-inline mb-0">
         <li class="list-inline-item">
-          <a href="#" class="btn btn-outline-light my-2"
-            >你好!{{ user.name }}</a
-          >
+          <dropdown :title="`你好 ${user.name}`">
+            <dropdown-item
+              ><a href="#" class="dropdown-item">新建</a></dropdown-item
+            >
+            <dropdown-item disabled
+              ><a href="#" class="dropdown-item">编辑</a></dropdown-item
+            >
+            <dropdown-item
+              ><a href="#" class="dropdown-item">查询</a></dropdown-item
+            >
+          </dropdown>
         </li>
       </ul>
     </div>
@@ -33,6 +41,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
+import Dropdown from "./Dropdown.vue";
+import DropdownItem from "./DropdownItem.vue";
 export interface UserProps {
   isLogin: boolean;
   name?: string;
@@ -40,6 +50,10 @@ export interface UserProps {
 }
 export default defineComponent({
   name: "GlobalHeader",
+  components: {
+    Dropdown,
+    DropdownItem,
+  },
   props: {
     user: {
       type: Object as PropType<UserProps>,
