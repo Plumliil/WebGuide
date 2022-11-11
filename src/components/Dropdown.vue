@@ -1,20 +1,48 @@
 <template>
-  <div class="dropdown">
-    <a href="#" class="btn btn-outline-light my-2 dropdowm-toggle">{{
-      title
-    }}</a>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#">Action</a></li>
-      <li><a class="dropdown-item" href="#">Another action</a></li>
-      <li><a class="dropdown-item" href="#">Something else here</a></li>
+  <div class="dropdown" ref="dropdownRef">
+    <a
+      @click="toggleOpen"
+      href="#"
+      class="btn btn-outline-light my-2 dropdowm-toggle"
+      >{{ title }}</a
+    >
+    <ul class="dropdown-menu" :style="{ display: 'block' }" v-if="isOpen">
+      <slot></slot>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, onUnmounted, ref, watch } from "vue";
 
-export default defineComponent({});
+import useClickOutside from "../hooks/useClickOutside";
+export default defineComponent({
+  name: "Dropdown",
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props, ctx) {
+    const isOpen = ref(false);
+    const dropdownRef = ref<HTMLElement | null>(null);
+    const toggleOpen = () => {
+      isOpen.value = !isOpen.value;
+    };
+    const isClickOutside = useClickOutside(dropdownRef);
+    watch(isClickOutside, () => {
+      if (isOpen.value && isClickOutside.value) {
+        isOpen.value = false;
+      }
+    });
+    return {
+      isOpen,
+      toggleOpen,
+      dropdownRef,
+    };
+  },
+});
 </script>
 
 <style lang="less" scoped></style>
