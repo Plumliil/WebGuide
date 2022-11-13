@@ -3,7 +3,7 @@
     <a
       @click="toggleOpen"
       href="#"
-      class="btn btn-outline-light my-2 dropdowm-toggle"
+      class="btn btn-sm btn-outline-light my-1 dropdowm-toggle "
       >{{ title }}</a
     >
     <ul class="dropdown-menu" :style="{ display: 'block' }" v-if="isOpen">
