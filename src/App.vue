@@ -1,39 +1,69 @@
 <template>
-  <h1>APP</h1>
-  <model :isOpen="modelIsOpen" @close-model="onModelClose">My Model!</model>
-  <button @click="openModel">open</button>
-  <Suspense>
-    <template #default>
-      <div>
-        <async-show />
-        <dog-show />
-      </div>
-    </template>
-    <template #fallback> <h2>loading!...</h2> </template>
-  </Suspense>
-  <p>{{error}}</p>
+  <!-- <div class="container-fluid"> -->
+  <global-header :user="currentUser" v-model="iptValue"></global-header>
+  <side-nav v-if="sideNavState"></side-nav>
+  <div class="container">
+    <router-view />
+  </div>
+  <footer class="text-center py-2 text-muted fs-6 mt-1">
+    <small>
+      <ul class="list-inline mb-0">
+        <li class="list-inline-item">&copy; 2022 plumliil</li>
+        <li class="list-inline-item">介绍</li>
+        <li class="list-inline-item">目录</li>
+        <li class="list-inline-item">联系</li>
+        <li class="list-inline-item">更多</li>
+      </ul>
+    </small>
+  </footer>
 </template>
 
 <script lang="ts">
-import { reactive, ref } from "@vue/reactivity";
-import { defineComponent, onErrorCaptured } from "vue";
-import Model from "./components/Model.vue";
-import AsyncShow from "./components/AsyncShow.vue";
-import DogShow from "./components/DogShow.vue";
-</script>
+import { defineComponent, onUpdated, reactive, ref, watch } from "vue";
+import { GlobalDataProps, UserProps } from "./interface";
+import GlobalHeader from "./components/GlobalHeader.vue";
+import SideNav from "./components/SideNav.vue";
+import { useStore } from "vuex";
+import { computed } from "@vue/reactivity";
 
-<script setup lang="ts">
-const components = defineComponent([Model, AsyncShow, DogShow]);
-const modelIsOpen = ref(false);
-const openModel = () => {
-  modelIsOpen.value = true;
-};
-const onModelClose = () => {
-  modelIsOpen.value = false;
-};
-const error = ref(null);
-onErrorCaptured((err: any) => {
-  error.value = err;
-  return true;
+export default defineComponent({
+  name: "App",
+  components: {
+    GlobalHeader,
+    SideNav,
+  },
+  setup() {
+    const store = useStore<GlobalDataProps>();
+    const iptValue = ref("xxx");
+    const sideNavState = computed(() => store.state.sideNavState);
+    const currentUser = computed(() => store.state.user);
+    return {
+      currentUser,
+      sideNavState,
+      iptValue,
+    };
+  },
 });
 </script>
+
+<style>
+html::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  /* width: 8px; 高宽分别对应横竖滚动条的尺寸 */
+  width: 0px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+  margin-top: 20px;
+}
+html::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  /* border-radius: 10px; */
+  /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.8); */
+  background: #ebebeb;
+}
+html::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  /* -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2); */
+  border-radius: 10px;
+  background: #fff;
+}
+</style>
