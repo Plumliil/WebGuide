@@ -1,11 +1,23 @@
-import { createStore } from "vuex";
+import { Commit, createStore } from "vuex";
 import { testData, testPost } from "./testData";
 import { GlobalDataProps } from "./interface";
+import axios from "axios";
 import useLocalstorage from "./hooks/useLocalstorage";
+
+const getAndCommit = async (
+  url: string,
+  mutationName: string,
+  commit: Commit
+) => {
+  const { data } = await axios.get(url);
+  commit(mutationName, data);
+};
 const store = createStore<GlobalDataProps>({
   state: {
     sideNavState: true,
     columns: testData,
+    sites: [],
+    classifySites: [],
     count: 0,
     user: useLocalstorage.get("userData") || {
       id: "0",
@@ -38,23 +50,29 @@ const store = createStore<GlobalDataProps>({
     createPost(state, newPost) {
       state.posts?.push(newPost);
     },
+    fetchSites(state, rawData) {
+      state.sites = rawData.data;
+    },
+    fetchClassifySites(state, rawData) {
+      console.log(rawData);
+      state.classifySites = rawData.data;
+    },
+  },
+  actions: {
+    async fetchSites({ commit }) {
+      getAndCommit("/site", "fetchSites", commit);
+    },
+    async fetchClassifySites({ commit }, classifyName) {
+      getAndCommit(
+        `/site/classify/${classifyName}`,
+        "fetchClassifySites",
+        commit
+      );
+    },
   },
   getters: {
     userState() {
       return useLocalstorage.get("userData");
-    },
-    biggerCloumnLen(state) {
-      return state.columns.filter((c) => c.id > 2).length;
-    },
-    getColumnById(state) {
-      return function (id: number) {
-        return state.columns.find((c) => c.id === id);
-      };
-    },
-    getPostsByCId(state) {
-      return function (id: number) {
-        return state.columns.find((c) => c.id === id);
-      };
     },
   },
 });
