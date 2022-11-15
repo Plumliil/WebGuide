@@ -3,6 +3,7 @@ import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import Signin from "./views/Signin.vue";
 import Column from "./views/ColumnDetail.vue";
+import Classify from "./views/SiteClassify.vue";
 import store from "./store";
 const routerHistory = createWebHistory();
 const router = createRouter({
@@ -12,6 +13,12 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: Home,
+    },
+    {
+      path: "/classify/:name",
+      name: "classify",
+      // component: () => import("./views/SiteClassify.vue"),
+      component:  Classify ,
     },
     {
       path: "/login",
@@ -62,8 +69,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log("to", to, to.meta);
-  console.log("from", from);
 
   if (to.meta.requireLogin && !store.state.user?.isLogin) {
     next({ name: "login" });
