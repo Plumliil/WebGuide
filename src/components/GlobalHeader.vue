@@ -7,7 +7,7 @@
     <div class="container-fluid mt-0">
       <router-link
         to="/"
-        class="navbar-brand position-absolute top-0 start-10"
+        class="navbar-brand position-absolute top-0 start-50"
         href="#"
       >
         <li class="list-inline-item">
@@ -23,9 +23,9 @@
         <svg t="1668500696509" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10554" width="32" height="32"><path d="M810.666667 247.04l-217.6 544-89.6-179.2A128 128 0 0 0 444.16 554.666667L264.533333 464.64 810.666667 247.04M885.333333 128a42.666667 42.666667 0 0 0-15.786666 3.413333l-725.333334 290.133334a42.666667 42.666667 0 0 0-2.986666 77.226666l264.533333 132.266667a42.666667 42.666667 0 0 1 19.2 19.2l132.266667 264.533333A42.666667 42.666667 0 0 0 597.333333 938.666667a42.666667 42.666667 0 0 0 39.68-26.453334l289.706667-725.333333A42.666667 42.666667 0 0 0 885.333333 128z" fill="#e6e6e6" p-id="10555"></path></svg>
         WebGuide
       </router-link>
-      <div
+      <!-- <div
         class="form-group position-absolute top-50 start-50 translate-middle"
-      >
+      > -->
         <!-- <input
           type="text"
           class="form-control input-mini"
@@ -33,9 +33,9 @@
           placeholder="Search"
           style="height: 35px; outline: none"
         /> -->
-      </div>
+      <!-- </div> -->
       <ul
-        v-if="!user.isLogin"
+        v-if="user.isLogin"
         class="list-inline position-absolute top-0 end-0"
       >
         <li class="list-inline-item">
