@@ -1,6 +1,7 @@
 export interface ColumnProps {
   id: number;
   title: string;
+  name: string;
   avatar?: string;
   url: string;
   logo: string;
