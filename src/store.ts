@@ -17,6 +17,7 @@ const store = createStore<GlobalDataProps>({
     sideNavState: true,
     columns: testData,
     sites: [],
+    class: [],
     classifySites: [],
     count: 0,
     user: useLocalstorage.get("userData") || {
@@ -53,6 +54,9 @@ const store = createStore<GlobalDataProps>({
     fetchSites(state, rawData) {
       state.sites = rawData.data;
     },
+    fetchClass(state, rawData) {
+      state.class = rawData.data;
+    },
     fetchClassifySites(state, rawData) {
       console.log(rawData);
       state.classifySites = rawData.data;
@@ -61,6 +65,9 @@ const store = createStore<GlobalDataProps>({
   actions: {
     async fetchSites({ commit }) {
       getAndCommit("/site", "fetchSites", commit);
+    },
+    async fetchClass({ commit }) {
+      getAndCommit("/class", "fetchClass", commit);
     },
     async fetchClassifySites({ commit }, classifyName) {
       getAndCommit(
@@ -73,6 +80,15 @@ const store = createStore<GlobalDataProps>({
   getters: {
     userState() {
       return useLocalstorage.get("userData");
+    },
+    getClassAndSites(state) {
+      let data = new Map();
+      state.sites.forEach((site) => {
+        let siteClass = data.get(site.classification) || [];
+        siteClass.push(site);
+        data.set(site.classification, siteClass);
+      });
+      return data;
     },
   },
 });

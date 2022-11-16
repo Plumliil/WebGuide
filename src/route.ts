@@ -18,7 +18,13 @@ const router = createRouter({
       path: "/classify/:name",
       name: "classify",
       // component: () => import("./views/SiteClassify.vue"),
-      component:  Classify ,
+      component: Classify,
+    },
+    {
+      path: "/sitesMenu",
+      name: "sitesMenu",
+      component: () => import("./views/SitesMenu.vue"),
+      // component:  Classify ,
     },
     {
       path: "/login",
@@ -69,7 +75,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-
   if (to.meta.requireLogin && !store.state.user?.isLogin) {
     next({ name: "login" });
   } else if (to.meta.redirectiveAlreadyLogin && store.state.user?.isLogin) {

@@ -28,7 +28,7 @@ export default defineComponent({
     //   store.dispatch("fetchClassifySites", route.params.name);
     // });
     store.commit("activateSideNav");
-    const list = computed(() => store.state.classifySites);
+    let list = computed(() => store.state.classifySites);
     return {
       list,
     };
