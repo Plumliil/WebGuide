@@ -64,6 +64,21 @@ export default defineComponent({
         title: "音乐系列",
         logo: "music",
       },
+      {
+        name: "video",
+        title: "视频系列",
+        logo: "video",
+      },
+      {
+        name: "code",
+        title: "代码系列",
+        logo: "code",
+      },
+      {
+        name: "git",
+        title: "代码系列",
+        logo: "git",
+      },
     ];
     const isActive = ref(true);
     const curClassifyName = ref("home");
